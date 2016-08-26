@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css" rel="stylesheet" href="stylesheets/font-awesome.min.css">
+  <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap.min.css">
+  <link href="stylesheets/nav.css" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" type="text/css" href="stylesheets/default.css">
+  <script src="javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
+  <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
+
+</head>
+<body>
+<div class="header">
+  <div class="heading">
+    <span>welcome</span>
+  </div>
+  <div class="pull-right">
+    <div class="user">
+      <li class="dropdown">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;<%= user.name %><b class="caret"></b></a>
+        <ul class="dropdown-menu">
+          <li><a href="/reset"><i class="fa fa-lock"></i>修改密码</a></li>
+          <li class="divider"></li>
+          <li><a href="/logout"><i class="fa fa-power-off"></i>退出</a></li>
+        </ul>
+      </li>
+    </div>
+  </div>
+</div>
+<div id="contentWrapper">
+  <div id="contentLeft">
+    <ul id="leftNavigation">
+      <li class="active">
+        <a href="#"><i class="fa fa-coffee leftNavIcon"></i> About us</a>
+        <ul>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Our History</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Our Team</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-flask leftNavIcon"></i> Products</a>
+        <ul>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Garden</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Office</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Home</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a href="#"><i class="fa fa-truck leftNavIcon"></i> Services</a>
+        <ul>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Garden</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Office</a>
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Home</a>
+          </li>
+        </ul>
+      </li>
+      <li class="clickable">
+        <a href="#"><i class="fa fa-envelope-o leftNavIcon"></i> Contact us</a>
+      </li>
+    </ul>
+  </div>
+  <div id="contentRight">
+    <ol class="breadcrumb">
+      <li><a href="#">Home</a></li>
+      <li><a href="#">2013</a></li>
+      <li>十一月</li>
+    </ol>
+  </div>
+</div>
+
+<script src="javascripts/jquery.ssd-vertical-navigation.js"></script>
+<script src="javascripts/nav.js"></script>
+</body>
+</html>
