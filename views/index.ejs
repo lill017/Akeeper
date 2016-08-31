@@ -6,8 +6,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link type="text/css" rel="stylesheet" href="stylesheets/font-awesome.min.css">
   <link type="text/css" rel="stylesheet" href="stylesheets/bootstrap.min.css">
+  <link type="text/css" rel="stylesheet" href="stylesheets/jquery-confirm.min.css">
   <link href="stylesheets/nav.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" type="text/css" href="stylesheets/default.css">
   <script src="javascripts/jquery-2.1.1.min.js" type="text/javascript"></script>
   <script type="text/javascript" src="javascripts/bootstrap.min.js"></script>
 
@@ -15,78 +15,339 @@
 <body>
 <div class="header">
   <div class="heading">
-    <span>welcome</span>
+    <span>Akeeper</span>
+  </div>
+  <div class="new">
+    <a class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-plus"></i>&nbsp;新增 </a>
   </div>
   <div class="pull-right">
     <div class="user">
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;<%= user.name %><b class="caret"></b></a>
         <ul class="dropdown-menu">
-          <li><a href="/reset"><i class="fa fa-lock"></i>修改密码</a></li>
+          <li><a href="#" data-toggle="modal" data-target="#setpwdModal"><i class="fa fa-lock"></i>修改密码</a></li>
           <li class="divider"></li>
-          <li><a href="/logout"><i class="fa fa-power-off"></i>退出</a></li>
+          <li><a href="/logout"><i class="fa fa-power-off"></i>登出</a></li>
         </ul>
       </li>
     </div>
   </div>
 </div>
-<div id="contentWrapper">
-  <div id="contentLeft">
-    <ul id="leftNavigation">
-      <li class="active">
-        <a href="#"><i class="fa fa-coffee leftNavIcon"></i> About us</a>
-        <ul>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Our History</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Our Team</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#"><i class="fa fa-flask leftNavIcon"></i> Products</a>
-        <ul>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Garden</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Office</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Home</a>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a href="#"><i class="fa fa-truck leftNavIcon"></i> Services</a>
-        <ul>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Garden</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Office</a>
-          </li>
-          <li>
-            <a href="#"><i class="fa fa-angle-right leftNavIcon"></i> Home</a>
-          </li>
-        </ul>
-      </li>
-      <li class="clickable">
-        <a href="#"><i class="fa fa-envelope-o leftNavIcon"></i> Contact us</a>
-      </li>
-    </ul>
-  </div>
-  <div id="contentRight">
-    <ol class="breadcrumb">
-      <li><a href="#">Home</a></li>
-      <li><a href="#">2013</a></li>
-      <li>十一月</li>
-    </ol>
+<div class="container">
+  <div class="row">
+    <% if (accounts.length) { %>
+    <table class="table">
+      <caption>账号列表</caption>
+      <thead>
+      <tr>
+        <th>账号名称</th>
+        <th>url</th>
+        <th>描述</th>
+        <th>操作</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% accounts.forEach(function(account){ %>
+      <tr>
+        <td><%= account.a_name %></td>
+        <td><a href="http://<%= account.a_url %>" target="_blank"><%= account.a_url %> </a></td>
+        <td><%= account.a_des %></td>
+        <td>
+          <a href="javascript:" title="查看账号密码" sign="<%= account._id %>" class="view"><i class="fa fa-eye"></i> </a>&nbsp;
+          <a href="javascript:" title="删除" sign="<%= account._id %>" class="del"><i class="fa fa-trash"></i> </a>
+        </td>
+      </tr>
+      <% }) %>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>账号名称</th>
+          <th>url</th>
+          <th>描述</th>
+          <th>操作</th>
+        </tr>
+      </tfoot>
+    </table>
+    <% } %>
   </div>
 </div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">账号信息</h4>
+      </div>
+      <div class="modal-body">
 
-<script src="javascripts/jquery.ssd-vertical-navigation.js"></script>
-<script src="javascripts/nav.js"></script>
+        <form class="form-horizontal" role="form">
+          <div class="form-group">
+            <label for="account-name" class="col-sm-2 control-label">账号名称</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="account-name" placeholder="账号名称" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account" class="col-sm-2 control-label">账号</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="account" placeholder="账号" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-password" class="col-sm-2 control-label">密码</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="account-password" placeholder="密码" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-url" class="col-sm-2 control-label">url</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="account-url" placeholder="like:www.baidu.com">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-description" class="col-sm-2 control-label">描述</label>
+            <div class="col-sm-10">
+              <textarea rows="3" class="form-control" id="account-description" placeholder="描述"></textarea>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="save">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal -->
+
+<!-- 模态框（Modal） 修改密码-->
+<div class="modal fade" id="setpwdModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+
+        <form class="form-horizontal" role="form">
+
+          <div class="form-group">
+            <label for="account-password" class="col-sm-2 control-label">旧密码</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="oldpwd" placeholder="旧密码" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-password" class="col-sm-2 control-label">新密码</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="newpwd" placeholder="新密码" >
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="account-password" class="col-sm-2 control-label">确认密码</label>
+            <div class="col-sm-10">
+              <input type="password" class="form-control" id="renewpwd" placeholder="确认新密码" >
+            </div>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="set">保存</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+<!-- /.modal 修改密码-->
+<script type="text/javascript" src="javascripts/jquery-confirm.min.js"></script>
+<script>
+  //添加纪录
+  $(function(){
+    $("#save").click(function(){
+      if($("#account-name").val().trim()==''||$("#account").val().trim()==''||$("#account-password").val().trim==''){
+        return;
+      }
+      var data = {
+        "aname":$("#account-name").val(),
+        "acc":$("#account").val(),
+        "apwd":$("#account-password").val(),
+        "aurl":$("#account-url").val(),
+        "ades":$("#account-description").val()
+      };
+      $.ajax({
+        url:'/account/addnew',
+        type:'post',
+        data: data,
+        success: function(data,status){
+          if(status == 'success'){
+            //alert('success');
+            $('#myModal').modal('hide');
+            $.dialog({
+              title:'恭喜',
+              content: '添加成功!',
+            });
+            location.reload();
+          }
+        },
+        error: function(data,status){
+          if(status == 'error'){
+            $.dialog({
+              title:'抱歉',
+              content: '添加失败!',
+            });
+          }
+        }
+      });
+    });
+  });
+
+  //修改密码
+  $('#set').on("click",function(){
+
+    var oldpwd = $('#oldpwd').val().trim();
+    var newpwd = $('#newpwd').val().trim();
+    var renewpwd = $('#renewpwd').val().trim();
+
+    if(oldpwd==''||newpwd==''||renewpwd==''){
+      return;
+    }
+    if(newpwd!=renewpwd){
+      return;
+    }
+    var data = {
+      "oldpwd":oldpwd,
+      "newpwd":newpwd
+    };
+    $.ajax({
+      url:'/setpwd',
+      type:'post',
+      data: data,
+      success: function(data){
+        if(data.result == 'ok'){
+          $('#setpwdModal').modal('hide');
+          $("#oldpwd").attr("value",'');
+          $("#newpwd").attr("value",'');
+          $("#renewpwd").attr("value",'');
+          $.dialog({
+            title:'恭喜',
+            content: '修改成功!',
+          });
+        }else{
+          $.dialog({
+            title:'抱歉',
+            content: '修改失败!',
+          });
+        }
+      },
+      error: function(data){
+        $.dialog({
+          title:'抱歉',
+          content: '修改失败!',
+        });
+      }
+    });
+
+  });
+
+  //删除记录
+   $('.del').on("click",function() {
+    var r = confirm('确定要删除该记录吗');
+     if(!r){
+       return;
+     }
+    $.ajax({
+      url:'/account/delete',
+      type:'post',
+      data: {'id':$(this).attr('sign')},
+      success: function(data,status){
+        if(status == 'success'){
+          //alert('success');
+          location.reload();
+        }
+      },
+      error: function(data,status){
+        if(status == 'error'){
+          alert('删除失败！');
+        }
+      }
+    });
+  });
+
+  //查看账号信息
+  $('.view').on("click",function() {
+    var id = $(this).attr('sign');
+
+    $.confirm({
+      title: false,
+      confirmButton: '确定',
+      cancelButton: '取消',
+      confirmButtonClass:'btn-info',
+      cancelButtonClass: 'btn-danger',
+      content: '<h4>密码:</h4> <input type="password" placeholder="请输入您的密码"/><span class="text-danger" id="err-msg" style="display: none">    密码错误！</span>', // You can also LOAD the html data using Ajax,
+      confirm: function(){
+        var val = this.$content.find('input').val(); // get the input value.
+        if(val.trim() == ''){ // validate it.
+          return false; // dont close the dialog. (and maybe show some error.)
+        }
+        var flag = false;
+        $.ajax({
+          url:'/account/check',
+          type:'post',
+          async: false,
+          data:{'pwd':val},
+          success:function(data){
+            if(data.result=='ok'){
+              flag = true;
+              doview(id);
+            }else{
+              $('#err-msg').show();
+              setTimeout(function () {
+                $('#err-msg').hide();
+              },1000)
+            }
+          }
+        });
+        return flag;
+      }
+    });
+
+    if(!flag){
+      return;
+    }
+
+  });
+
+  function doview(id) {
+    $.ajax({
+      url:'/account/view',
+      type:'post',
+      data: {'id':id},
+      success: function(data,status){
+        if(status == 'success'){
+          var account=data.account;
+          var password= data.password;
+          $.alert({
+            title: '账号信息',
+            content: '账号：'+account+'<br>'+'密码：'+password,
+            confirmButton:'确定',
+            confirmButtonClass:'btn-info'
+          });
+        }
+      },
+      error: function(data,status){
+        if(status == 'error'){
+          alert('未知错误！');
+        }
+      }
+    });
+  }
+</script>
 </body>
 </html>

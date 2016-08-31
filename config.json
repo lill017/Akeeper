@@ -1,7 +1,14 @@
 {
-  "dbname":"Akeeper",
-  "port": "27017",
-  "host": "127.0.0.1",
-  "username": "lill",
-  "password": "lill"
+
+  "dbcfg":{
+    "dbname": "Akeeper",
+    "port": "27017",
+    "host": "127.0.0.1",
+    "username": "lill",
+    "password": "lill"
+  },
+  "safecfg":{
+    "algorithm":"aes-256-cbc",
+    "key":"akeeper"
+  }
 }

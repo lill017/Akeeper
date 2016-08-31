@@ -8,11 +8,11 @@ var db = null;
 exports.getCollection = function (collectionName) {
     if (!db) {
         /**
-        var host = config.host,
-            port = config.port,
-            dbName = config.dbname,
-            userName = config.username,
-            password = config.password,
+        var host = config.dbcfg.host,
+            port = config.dbcfg.port,
+            dbName = config.dbcfg.dbname,
+            userName = config.dbcfg.username,
+            password = config.dbcfg.password,
             str = 'mongodb://' + userName + ':' + password + '@' + host +':' + port+ '/' + dbName;
         var option = {
             native_parser: true,

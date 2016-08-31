@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongo = require('../db/mongo');
 var security = require('../util/security');
+var ObjectId = require('mongodb').ObjectID;
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/', function(req, res, next) {
 });
 
 /* GET login page. */
-router.route("/login").get(function(req,res) {    // 到达此路径则渲染login文件，并传出title值供 login.html使用
+router.route("/login").get(function(req,res) {    // 到达此路径则渲染login文件，并传出title值供 login使用
     res.render("login", {title: 'User Login'});
 }).post(function(req,res){                        // 从此路径检测到post方式则进行post数据的处理操作
     //get User info
@@ -73,7 +74,37 @@ router.get("/index",function(req,res){
     if(!req.session.user){
         res.redirect("/");                //未登录则重定向到 /login 路径
     }
-    res.render("index",{title:'Home'});         //已登录则渲染index页面
+    var Account = mongo.getCollection('account');
+
+    Account.find({a_user:req.session.user._id}).toArray(function(err, items){
+        if(err){
+            res.send(500);
+            console.log(err)
+        }
+        res.render("index",{title:'Home',accounts:items});
+    });
+
+});
+
+/* setpwd. */
+router.post("/setpwd",function(req,res){    // 到达 /logout 路径则登出， session中user,error对象置空，并重定向到根路径
+    var oldpwd = req.body.oldpwd;
+    var newpwd = req.body.newpwd;
+    if(security.encrypt(oldpwd)==req.session.user.password){
+        var User = mongo.getCollection('user');
+        User.update({_id:ObjectId(req.session.user._id)},{$set:{password:security.encrypt(newpwd)}},function (err,result) {
+            if(err){
+                res.send({"result":"fail"});
+                console.log(err);
+            }else{
+                req.session.user.password = security.encrypt(newpwd);
+                res.send({"result":"ok"});
+            }
+        });
+
+    }else{
+        res.send({"result":"fail"});
+    }
 });
 
 /* GET logout page. */
